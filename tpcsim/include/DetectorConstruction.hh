@@ -32,7 +32,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     // solid volumes
     //
     G4Box* experimentalHall_box;
-    G4Box* detector_box;
+    G4Box* detector_tub;
     // Logical volumes
     //
     G4LogicalVolume* experimentalHall_log;
@@ -41,6 +41,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     //
     G4VPhysicalVolume* experimentalHall_phys;
     G4VPhysicalVolume* detector_phys;
+	//TPC parameters
+	G4double TPC_r;
+	G4double TPC_l;
+
 
 };
 

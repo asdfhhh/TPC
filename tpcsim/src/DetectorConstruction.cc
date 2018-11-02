@@ -61,8 +61,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	experimentalHall_log = new G4LogicalVolume(experimentalHall_box,Vacuum,"expHall_log",0,0,0);
 	experimentalHall_phys = new G4PVPlacement(0,G4ThreeVector(),experimentalHall_log,"expHall",0,false,0);
 	//detector construction
-	detector_box = new G4Box("detector_box",1*mm,1*mm,1.5*mm);
-	detector_log = new G4LogicalVolume(detector_box,czt,"detector_log",0,0,0);
+	detector_tub = new G4Box("detector_box",1*mm,1*mm,1.5*mm);
+	detector_log = new G4LogicalVolume(detector_tub,czt,"detector_log",0,0,0);
 	detector_phys=new G4PVPlacement(0,G4ThreeVector(0,0,0),detector_log,"det",experimentalHall_log,false,0);
 	experimentalHall_log->SetVisAttributes (G4VisAttributes::Invisible);
 	//set SD

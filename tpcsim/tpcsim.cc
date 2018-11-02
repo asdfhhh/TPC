@@ -1,10 +1,11 @@
 /************************************************
 * Author: Fan Ruirui
 * email:fanrr@ihep.ac.cn
-* Last modified:	2015-07-01 14:38
-* Filename:		tpcsim.cc
+* Last modified: 2015-08-10 11:01
+* Filename: tpcsim.cc
 * Description: 
 *************************************************/
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -18,8 +19,8 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "SteppingAction.hh"
-//#include "ParameterEdit.hh"
-#include "TrackingAction.hh"
+
+
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
 #endif
@@ -43,25 +44,21 @@ int main(int argc,char** argv)
 
   // Set mandatory initialization classes
   //
-	DetectorConstruction* Det=new DetectorConstruction();
-	runManager->SetUserInitialization(Det);
+  runManager->SetUserInitialization(new DetectorConstruction);
   //
   //runManager->SetUserInitialization(new PhysicsList);
-    runManager->SetUserInitialization(new QGSP_BERT_HP);
+  runManager->SetUserInitialization(new QGSP_BERT_HP);
   // Set user action classes
   //
-  runManager->SetUserAction(new PrimaryGeneratorAction(Det));
+  runManager->SetUserAction(new PrimaryGeneratorAction);
   //
-	RunAction*runAct=new RunAction(Det);
-	runManager->SetUserAction(runAct);
+  RunAction*runAct=new RunAction();
+  runManager->SetUserAction(runAct);
   //
-	EventAction*eveAct=new EventAction(runAct);
-	runManager->SetUserAction(eveAct);
+  runManager->SetUserAction(new EventAction(runAct));
   //
   runManager->SetUserAction(new SteppingAction);
-  runManager->SetUserAction(new TrackingAction(runAct));
-	//Initialize the QT widget for edit  
-	//new ParameterEdit();
+  
   // Initialize G4 kernel
   //
   runManager->Initialize();
@@ -88,10 +85,10 @@ int main(int argc,char** argv)
 #ifdef G4UI_USE
       G4UIExecutive* ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
-     UImanager->ApplyCommand("/control/execute init_vis.mac"); 
+      UImanager->ApplyCommand("/control/execute vis.mac"); 
 #endif
       if (ui->IsGUI())
-        UImanager->ApplyCommand("/control/execute gui.mac");
+      UImanager->ApplyCommand("/control/execute gui.mac");
       ui->SessionStart();
       delete ui;
 #endif
