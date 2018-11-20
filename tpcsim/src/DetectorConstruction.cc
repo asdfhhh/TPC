@@ -37,6 +37,8 @@ DetectorConstruction::DetectorConstruction()
  :  experimentalHall_log(0), detector_log(0),
     experimentalHall_phys(0),detector_phys(0)
 { 
+	TPC_r=20*cm;
+	TPC_l=20*cm;
 }
 
 DetectorConstruction::~DetectorConstruction()
@@ -53,17 +55,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	Vacuum=new G4Material("Galactic", z=1., a=1.01*g/mole,density=universe_mean_density,kStateGas, 3.e-18*pascal, 2.73*kelvin);
 	G4NistManager* man = G4NistManager::Instance();
 	man->SetVerbose(0);
-	G4Material* czt= man->FindOrBuildMaterial("G4_CADMIUM_TELLURIDE");
+	density     = 0.00166201/1*g/cm3;//1E5Pa divided by a factor
+  	int ncomponents = 1;
+  	int natoms;
+  	G4Element* elAr = new G4Element("Element_Argon",  "Ar", z, a);
+  	G4Material* Ar = new G4Material("Ar",density , ncomponents);
+	Ar->AddElement(elAr,natoms=1);
 	//------------------------------ experimental hall (world volume)
 	//------------------------------ beam line along z axis
  
-	experimentalHall_box = new G4Box("expHall_box",10*cm,10*cm,10*cm);
+	experimentalHall_box = new G4Box("expHall_box",5*m,5*m,5*m);
 	experimentalHall_log = new G4LogicalVolume(experimentalHall_box,Vacuum,"expHall_log",0,0,0);
 	experimentalHall_phys = new G4PVPlacement(0,G4ThreeVector(),experimentalHall_log,"expHall",0,false,0);
 	//detector construction
-	detector_tub = new G4Box("detector_box",1*mm,1*mm,1.5*mm);
-	detector_log = new G4LogicalVolume(detector_tub,czt,"detector_log",0,0,0);
+	detector_tub = new G4Tubs("detector_tub",0,TPC_r,TPC_l/2,0,2*pi);
+	detector_log = new G4LogicalVolume(detector_tub,Ar,"detector_log",0,0,0);
 	detector_phys=new G4PVPlacement(0,G4ThreeVector(0,0,0),detector_log,"det",experimentalHall_log,false,0);
+	//construction the target
+	atarget=new Target();
+	target_log=atarget->Construct();
+	target_phys=new G4PVPlacement(0,G4ThreeVector(0,0,0),target_log,"target",detector_log,false,0);
+	//set experimentalHall_log Invisible
 	experimentalHall_log->SetVisAttributes (G4VisAttributes::Invisible);
 	//set SD
 	G4SDManager* SDman = G4SDManager::GetSDMpointer();
