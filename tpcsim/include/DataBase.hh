@@ -19,7 +19,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-#ifndef Det_TEST
+
 
 class DataBase
 {
@@ -28,23 +28,25 @@ public:
 	~DataBase();
 
 	void MakeTree(int);
-	void FillTrueth(double,int);
+	void FillTrueth(double,G4ThreeVector, int);
 	void FillData(int,int);
-	void FillOnline(int); 
-	void Fill2DOnline(int,int,int); 
+
 	void SaveData();
 	void SaveTrueth();
-	void ResetOnline();
+
 private: 
 	TTree*t;
 	TTree*d;
 	char Hname[100];
 	TFile* hfile;
 	double *energy;
+	double *tx;
+	double *ty;
+	double *tz;
 	int *D_energy;
 	int Evn_number;
 	ofstream bin_file;
 };
-#endif
+
 #endif /*DataBase_h*/
 

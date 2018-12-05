@@ -65,7 +65,7 @@ void DetDigitizer::Digitize()
 			Etotal = (*THC)[i]->GetEdep();
 			pos=(*THC)[i]->GetPos();
 			DetDigi* Digi = new DetDigi();
-			G4cout<<pos.z()<<G4endl;
+			//G4cout<<pos.z()<<G4endl;
 			Etotal = SignalProcess(Etotal,pos.z());
 			Digi->SetADC(Etotal);
 			DigitsCollection->insert(Digi);
@@ -82,7 +82,7 @@ void DetDigitizer::Digitize()
 G4double DetDigitizer::SignalProcess(G4double TmpE,G4double z)
 {
 	G4double E = TmpE;
-	G4double Fano=0.089;
+	/*G4double Fano=0.089;
 	//make the energy radom
         E = G4RandGauss::shoot(E/keV,sqrt(E*Fano/keV)/(E/keV))*keV;
         //make the position dependen
@@ -93,7 +93,7 @@ G4double DetDigitizer::SignalProcess(G4double TmpE,G4double z)
 	G4double E_e=E*3E-6*(1000*300/0.3)*(1-exp(-t_e/3E-6))/0.3;
 	G4double E_h=E*1E-6*(50*300/0.3)*(1-exp(-t_h/1E-6))/0.3;
 	//get total
-        E = E_e+E_h;
+        E = E_e+E_h;*/
 	return E;
 }
 

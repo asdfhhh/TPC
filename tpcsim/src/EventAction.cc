@@ -77,10 +77,11 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 		G4double T_E=0;
 		for(int i=0;i<n_hit;i++)
 		{  
-			T_E+=(*PHC)[i]->GetEdep();
+			T_E=(*PHC)[i]->GetEdep();
+			G4ThreeVector pos=(*PHC)[i]->GetPos();
+			newdata->FillTrueth(T_E/keV,pos,0);
+			newdata->SaveTrueth();		
 		}
-		newdata->FillTrueth(T_E/keV,0);
-		newdata->SaveTrueth();
 	}	
 	DetDigitizer * myDM =
 	(DetDigitizer*)fDM->FindDigitizerModule( "DetDigitizer" );

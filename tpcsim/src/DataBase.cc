@@ -6,7 +6,6 @@
 * Description: 
 *************************************************/
 #include "DataBase.hh"
-#ifndef Det_TEST
 
 DataBase::DataBase(int Tname)
 {
@@ -40,6 +39,9 @@ void DataBase::MakeTree(int det_num)
 {
 	int ch_num=det_num;
 	energy=new double[ch_num];
+	tx=new double[ch_num];
+	ty=new double[ch_num];
+	tz=new double[ch_num];
 	D_energy=new int[ch_num];
 	char Bname[12];
 	//construct the tree
@@ -49,7 +51,17 @@ void DataBase::MakeTree(int det_num)
 		sprintf(Hname,"t_Ch%d",i+1); 
 		sprintf(Bname,"energy%d/D",i+1);
 		t->Branch(Hname,&energy[i],Bname);
+		sprintf(Hname,"x%d",i+1); 
+		sprintf(Bname,"x%d/D",i+1);
+		t->Branch(Hname,&tx[i],Bname);
+		sprintf(Hname,"y%d",i+1); 
+		sprintf(Bname,"y%d/D",i+1);
+		t->Branch(Hname,&ty[i],Bname);
+		sprintf(Hname,"z%d",i+1); 
+		sprintf(Bname,"z%d/D",i+1);
+		t->Branch(Hname,&tz[i],Bname);
 	}
+
 
 	d=new TTree("data","Data");
 	for (int i= 0; i< ch_num; i++)
@@ -60,9 +72,12 @@ void DataBase::MakeTree(int det_num)
 	}
 }
 
- void DataBase::FillTrueth(double energy1,int D_id1)
+ void DataBase::FillTrueth(double energy1,G4ThreeVector pos, int D_id1)
 {
 	energy[D_id1]=energy1;
+	tx[D_id1]=pos.x();
+	ty[D_id1]=pos.y();
+	tz[D_id1]=pos.z();
 }
 
  void DataBase::SaveTrueth()
@@ -77,51 +92,10 @@ void DataBase::MakeTree(int det_num)
 
  void DataBase::SaveData()
 {
-/*	unsigned int tmp_data=235;
-	bin_file.write((char*)(&tmp_data),1);
-	tmp_data=144;
-	bin_file.write((char*)(&tmp_data),1);
-	tmp_data=ID;
-	bin_file.write((char*)(&tmp_data),1);
-	tmp_data=0;
-	bin_file.write((char*)(&tmp_data),1);
-	tmp_data=8706;
-	bin_file.write((char*)(&tmp_data),2);
-	for(int iii=0;iii<det_num;iii++)
-	{
-		bin_file.write((char*)(&iii),1);
-		tmp_data=int((D_energy[iii]>>8)&0xff);
-		bin_file.write((char*)(&tmp_data),1);
-		tmp_data=int(D_energy[iii]&0xff);
-		bin_file.write((char*)(&tmp_data),1);		
-	}
-	tmp_data=0;
-	bin_file.write((char*)(&tmp_data),2);
-	tmp_data=52445;
-	bin_file.write((char*)(&tmp_data),2);*/
 	d->Fill();
 }
 
-void DataBase::Fill2DOnline(int energy1,int P_id1,int P_id2)
-{
-/*	thp->Lock();
-	map_online->Fill(P_id1,P_id2,energy1);
-	thp->UnLock();*/
-}
 
-void DataBase::ResetOnline()
-{
-/*	thp->Lock();
-	map_online->Reset();
-	thp->UnLock();*/
-}
 
-void DataBase::FillOnline(int energy1)
-{
-/*	thp->Lock();
-	total->Fill(energy1);
-	thp->UnLock();*/
-}
 
-#endif
 
