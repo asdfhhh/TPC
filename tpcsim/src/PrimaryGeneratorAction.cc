@@ -31,7 +31,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	particleGun->SetParticleEnergy(1*MeV);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0,-1,0)); 
 	particleGun->SetParticlePosition(G4ThreeVector(0,0,0*cm));
-
 	InitialGenList();
 
 
@@ -68,9 +67,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	G4ParticleDefinition* particle;	
 	particle = particleTable->FindParticle(particleName="neutron");
 	particleGun->SetParticleDefinition(particle);
-	particleGun->SetParticleEnergy(Gen_list->GetRandom()*keV);
-	particleGun->SetParticleMomentumDirection(G4ThreeVector(0,-1,0)); 
-	particleGun->SetParticlePosition(G4ThreeVector(0,55*m,0));
+	//particleGun->SetParticleEnergy(Gen_list->GetRandom()*keV);
+	particleGun->SetParticleEnergy(0.001*eV);
+	particleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,-1)); 
+	particleGun->SetParticlePosition(G4ThreeVector(0,0,55*m));
 	particleGun->GeneratePrimaryVertex(anEvent);
 /*
 		#if random_particle

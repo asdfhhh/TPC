@@ -63,7 +63,7 @@ void DetDigitizer::Digitize()
 		for (G4int i=0;i<n_hit;i++)
 		{
 			Etotal = (*THC)[i]->GetEdep();
-			pos=(*THC)[i]->GetPos();
+			//pos=(*THC)[i]->GetPos();
 			DetDigi* Digi = new DetDigi();
 			//G4cout<<pos.z()<<G4endl;
 			Etotal = SignalProcess(Etotal,pos.z());
