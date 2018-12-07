@@ -1,7 +1,7 @@
 /************************************************
 * Author: Fan Ruirui
 * email:fanrr@ihep.ac.cn
-* Last modified:	2015-08-10 11:03
+* Last modified:	2018-12-07 14:28
 * Filename:		DataBase.hh
 * Description: 
 *************************************************/
@@ -24,12 +24,12 @@ using namespace std;
 class DataBase
 {
 public:
-	DataBase(int);
+	DataBase(int Run_No);
 	~DataBase();
 
-	void MakeTree(int);
-	void FillTrueth(double,G4ThreeVector, int);
-	void FillData(int,int);
+	void MakeTree(int Det_NUM);
+	void FillTrueth(double delta_energy,G4ThreeVector pos, int Event_No, int Det_ID);
+	void FillData(int total_energy,int Det_ID);
 
 	void SaveData();
 	void SaveTrueth();
@@ -43,8 +43,8 @@ private:
 	double *tx;
 	double *ty;
 	double *tz;
+	int Eve_No;
 	int *D_energy;
-	int Evn_number;
 	ofstream bin_file;
 };
 

@@ -79,8 +79,11 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 		{  
 			T_E=(*PHC)[i]->GetEdep();
 			G4ThreeVector pos=(*PHC)[i]->GetPos();
-			newdata->FillTrueth(T_E/keV,pos,0);
-			newdata->SaveTrueth();		
+			if(T_E>0)
+			{
+				newdata->FillTrueth(T_E/keV,pos,evtNb,0);
+				newdata->SaveTrueth();		
+			}
 		}
 	}	
 	DetDigitizer * myDM =

@@ -1,7 +1,7 @@
 /************************************************
 * Author: Fan Ruirui
 * email:fanrr@ihep.ac.cn
-* Last modified:	2015-08-10 11:01
+* Last modified:	2018-12-07 14:28
 * Filename:		DataBase.cc
 * Description: 
 *************************************************/
@@ -61,6 +61,7 @@ void DataBase::MakeTree(int det_num)
 		sprintf(Bname,"z%d/D",i+1);
 		t->Branch(Hname,&tz[i],Bname);
 	}
+	t->Branch("event",&Eve_No,"Eve_No/I");
 
 
 	d=new TTree("data","Data");
@@ -72,8 +73,9 @@ void DataBase::MakeTree(int det_num)
 	}
 }
 
- void DataBase::FillTrueth(double energy1,G4ThreeVector pos, int D_id1)
+ void DataBase::FillTrueth(double energy1,G4ThreeVector pos, int Event_No, int D_id1)
 {
+	Eve_No=Event_No;
 	energy[D_id1]=energy1;
 	tx[D_id1]=pos.x();
 	ty[D_id1]=pos.y();
