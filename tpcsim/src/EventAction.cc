@@ -81,7 +81,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 			G4ThreeVector pos=(*PHC)[i]->GetPos();
 			if(T_E>0)
 			{
-				newdata->FillTrueth(T_E/keV,pos,evtNb,0);
+				newdata->FillTrueth(T_E/keV,pos,evtNb,((*PHC)[i]->GetInTime())/ns,(*PHC)[i]->GetTrackName());
 				newdata->SaveTrueth();		
 			}
 		}
@@ -101,7 +101,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 		{
 			T_E+=(*DC)[i]->GetADC();		
 		}
-		newdata->FillData(T_E,0);
+		newdata->FillData(T_E);
 		newdata->SaveData();
 	}
 }  

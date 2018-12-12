@@ -9,21 +9,21 @@
 #define SteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
-
-
+#include "RunAction.hh"
+#include "DataBase.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class SteppingAction : public G4UserSteppingAction
 {
 public:
-  SteppingAction();
+  SteppingAction(RunAction*);
   virtual ~SteppingAction();
 
   void UserSteppingAction(const G4Step*);
     
 private:
-
+	RunAction*aRun;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

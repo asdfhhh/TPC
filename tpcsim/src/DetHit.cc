@@ -26,13 +26,17 @@ DetHit::~DetHit()
 DetHit::DetHit(const DetHit &right)
   : G4VHit()
 {
-  edep = right.edep;
-  fPos = right.fPos;
+	edep = right.edep;
+	fPos = right.fPos;
+	intime=right.intime;
+	inname=right.inname;
 }
 const DetHit& DetHit::operator=(const DetHit &right)
 {
-  edep = right.edep;
-  fPos = right.fPos;
+	edep = right.edep;
+	fPos = right.fPos;
+	intime=right.intime;
+	inname=right.inname;
   return *this;
 }
 

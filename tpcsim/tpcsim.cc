@@ -19,7 +19,7 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "SteppingAction.hh"
-
+#include "TrackingAction.hh"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -57,8 +57,8 @@ int main(int argc,char** argv)
   //
   runManager->SetUserAction(new EventAction(runAct));
   //
-  runManager->SetUserAction(new SteppingAction);
-  
+  runManager->SetUserAction(new SteppingAction(runAct));
+	runManager->SetUserAction(new TrackingAction(runAct));
   // Initialize G4 kernel
   //
   runManager->Initialize();

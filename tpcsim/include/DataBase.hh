@@ -27,25 +27,33 @@ public:
 	DataBase(int Run_No);
 	~DataBase();
 
-	void MakeTree(int Det_NUM);
-	void FillTrueth(double delta_energy,G4ThreeVector pos, int Event_No, int Det_ID);
-	void FillData(int total_energy,int Det_ID);
+	void MakeTree();
+	void FillTrueth(double energy1,G4ThreeVector pos, int Event_No,double time1,int code1 );
+	void FillData(int total_energy);
+	void FillVertex(int code,double energy,double time) ;
 
 	void SaveData();
-	void SaveTrueth();
+	void SaveTrueth();	
+	void SaveVertex();
 
 private: 
 	TTree*t;
 	TTree*d;
-	char Hname[100];
+	TTree*v;
 	TFile* hfile;
-	double *energy;
-	double *tx;
-	double *ty;
-	double *tz;
+	double energy;
+	double tx;
+	double ty;
+	double tz;
 	int Eve_No;
-	int *D_energy;
-	ofstream bin_file;
+	int D_energy;
+	int code;	
+	ofstream bin_file;	
+	double incident_time;
+	double v_energy;
+	double v_time;	
+	int v_code;
+
 };
 
 #endif /*DataBase_h*/

@@ -31,55 +31,41 @@ DataBase::~DataBase()
 	hfile->cd();
 	hfile->Write();
 	//bin_file.close();
-	delete energy;
-	delete D_energy;
 }
 
-void DataBase::MakeTree(int det_num)
+void DataBase::MakeTree()
 {
-	int ch_num=det_num;
-	energy=new double[ch_num];
-	tx=new double[ch_num];
-	ty=new double[ch_num];
-	tz=new double[ch_num];
-	D_energy=new int[ch_num];
 	char Bname[12];
 	//construct the tree
 	t=new TTree("truth","Truth");
-	for (int i= 0; i< ch_num; i++)
-	{
-		sprintf(Hname,"t_Ch%d",i+1); 
-		sprintf(Bname,"energy%d/D",i+1);
-		t->Branch(Hname,&energy[i],Bname);
-		sprintf(Hname,"x%d",i+1); 
-		sprintf(Bname,"x%d/D",i+1);
-		t->Branch(Hname,&tx[i],Bname);
-		sprintf(Hname,"y%d",i+1); 
-		sprintf(Bname,"y%d/D",i+1);
-		t->Branch(Hname,&ty[i],Bname);
-		sprintf(Hname,"z%d",i+1); 
-		sprintf(Bname,"z%d/D",i+1);
-		t->Branch(Hname,&tz[i],Bname);
-	}
+	t->Branch("E",&energy,"energy/D");
+	t->Branch("x",&tx,"x/D");
+	t->Branch("y",&ty,"y/D");
+	t->Branch("z",&tz,"z/D");
+        t->Branch("t",&incident_time,"t/D");
+	t->Branch("code",&code,"code/I");
 	t->Branch("event",&Eve_No,"Eve_No/I");
 
 
 	d=new TTree("data","Data");
-	for (int i= 0; i< ch_num; i++)
-	{
-		sprintf(Hname,"d_Ch%d",i+1);
-		sprintf(Bname,"D_energy%d/I",i+1);
-		d->Branch(Hname,&D_energy[i],Bname);
-	}
+	d->Branch("ADC",&D_energy,"ADC/I");
+
+	v=new TTree("vertex","vertex");
+	v->Branch("v_energy",&v_energy,"v_energy/D");
+	v->Branch("v_time",&v_time,"v_time/D");
+	v->Branch("v_code",&v_code,"v_code/I");
 }
 
- void DataBase::FillTrueth(double energy1,G4ThreeVector pos, int Event_No, int D_id1)
+ void DataBase::FillTrueth(double energy1,G4ThreeVector pos, int Event_No,double time1,int code1 )
 {
 	Eve_No=Event_No;
-	energy[D_id1]=energy1;
-	tx[D_id1]=pos.x();
-	ty[D_id1]=pos.y();
-	tz[D_id1]=pos.z();
+	energy=energy1;
+	tx=pos.x();
+	ty=pos.y();
+	tz=pos.z();
+	incident_time=time1;
+	code=code1;
+	
 }
 
  void DataBase::SaveTrueth()
@@ -87,9 +73,9 @@ void DataBase::MakeTree(int det_num)
 	t->Fill();
 }
 
- void DataBase::FillData(int energy1,int D_id1)
+ void DataBase::FillData(int energy1)
 {
-	D_energy[D_id1]=energy1;
+	D_energy=energy1;
 }
 
  void DataBase::SaveData()
@@ -97,7 +83,17 @@ void DataBase::MakeTree(int det_num)
 	d->Fill();
 }
 
+ void DataBase::FillVertex(int code1,double energy1,double time1)
+{
+	v_code=code1;
+	v_energy=energy1;
+	v_time=time1;
+}
 
+ void DataBase::SaveVertex()
+{
+	v->Fill();
+}
 
 
 

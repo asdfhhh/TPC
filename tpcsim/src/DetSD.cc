@@ -61,6 +61,9 @@ G4bool DetSD::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 	DetHit* newHit = new DetHit();
  	newHit->SetEdep(e);
 	newHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
+	newHit->SetInTime(aStep->GetPostStepPoint()->GetGlobalTime());
+	newHit->SetTrackName(aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding());
+	
 	DetCollection->insert( newHit );
 	return true;
 }

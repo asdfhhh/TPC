@@ -36,6 +36,8 @@ class DetHit : public G4VHit
   private:
 	G4double edep;
 	G4ThreeVector fPos;
+	G4double intime;
+	G4int inname;
   public:
 	inline void SetEdep(G4double de)
 	{ edep =de;}
@@ -46,7 +48,15 @@ class DetHit : public G4VHit
 	inline	void SetPos(G4ThreeVector xyz)
 	{ fPos = xyz; };
 	inline	G4ThreeVector GetPos() const 
-	{ return fPos; };
+	{ return fPos; };	
+	inline void SetInTime(G4double time_incident)
+	{ intime=time_incident;}
+	inline G4double GetInTime()
+	{ return intime;}
+	inline void SetTrackName(G4int name_incident)
+	{ inname=name_incident;}
+	inline G4int GetTrackName()
+	{return inname;}
 };
 
 typedef G4THitsCollection<DetHit> DetHitsCollection;
